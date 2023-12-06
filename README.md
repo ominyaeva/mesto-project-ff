@@ -19,5 +19,5 @@
 *БЭМ
 
 Ссылка на GITHUB
-https://ominyaeva.github.io/mesto/# Проектная работа Mesto
+https://ominyaeva.github.io/mesto-project-ff/ Проектная работа Mesto
 
