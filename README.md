@@ -1,4 +1,4 @@
-https://github.com/ominyaeva/mesto-project-ff
+https://github.com/ominyaeva/mesto-project-ff.git
 
 # Проект: Место
 
