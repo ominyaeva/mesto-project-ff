@@ -1,3 +1,5 @@
+https://github.com/ominyaeva/mesto-project-ff
+
 # Проект: Место
 
 В работе используется подключение JS для работы с формой.
@@ -18,6 +20,5 @@
 *Флексбокс
 *БЭМ
 
-Ссылка на GITHUB
-https://ominyaeva.github.io/mesto-project-ff/ Проектная работа Mesto
+
 
