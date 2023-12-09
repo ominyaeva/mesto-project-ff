@@ -1,5 +1,8 @@
+import {openPopupImage} from "../index";
+
 const cardTemplate = document.querySelector("#card-template").content;
-const createCard = (card, deleteCard, likeCard, popupImageOpen) => {
+
+const createCard = (card, deleteCard, likeCard, openPopupImage) => {
     const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
     const cardImage = cardElement.querySelector(".card__image");
     const cardDeleteButton = cardElement.querySelector(".card__delete-button");
@@ -10,23 +13,24 @@ const createCard = (card, deleteCard, likeCard, popupImageOpen) => {
     cardImage.src = card.link;
     cardImage.alt = card.name;
 
-    cardDeleteButton.addEventListener("click", (evt) => {
-        deleteCard(evt);
-    });
-
-    cardButtonLike.addEventListener("click", (evt) => {
-        likeCard(evt);
-    });
-
+    cardDeleteButton.addEventListener("click", deleteCard);
+    cardButtonLike.addEventListener("click", likeCard);
     cardImage.addEventListener("click", () => {
-        popupImageOpen(cardImage.src, cardImage.alt, cardTitle.textContent);
+        openPopupImage(card.link, card.name);
     });
 
     return cardElement;
 };
 
-const renderCard = (item, container, likeCard, deleteCard, popupImageOpen, place = "end",) => {
-    const cardEl = createCard(item, deleteCard, likeCard, popupImageOpen);
+const likeCard = (evt) => {
+    evt.target.classList.toggle("card__like-button_is-active");
+};
+const deleteCard = (evt) => {
+    evt.target.closest(".card").remove();
+};
+
+const renderCard = (item, container, likeCard, deleteCard, openPopupImage, place = "end",) => {
+    const cardEl = createCard(item, deleteCard, likeCard, openPopupImage);
     if (place === "end") {
         container.append(cardEl);
     } else {
@@ -34,4 +38,4 @@ const renderCard = (item, container, likeCard, deleteCard, popupImageOpen, place
     }
 };
 
-export { renderCard };
+export { renderCard, deleteCard, likeCard };

@@ -1,7 +1,7 @@
 import "./index.css";
 import { initialCards } from "./scripts/cards";
 import { closePopup, openPopup, closeToOverlay } from "./scripts/modal";
-import { renderCard } from "./scripts/card";
+import { renderCard, deleteCard, likeCard } from "./scripts/card";
 
 const placesList = document.querySelector(".places__list");
 const popupProfile = document.querySelector(".popup_type_edit");
@@ -15,40 +15,34 @@ const popupNewCardForm = document.forms["new-place"];
 const popupImageElement = document.querySelector(".popup_type_image");
 const popupImage = popupImageElement.querySelector(".popup__image");
 const popupCaption = popupImageElement.querySelector(".popup__caption");
-
-const popupImageOpen = (CardImageURL, CardImageAlt, CardImageTitle) => {
+const closeButtons = document.querySelectorAll(".popup__close");
+export const openPopupImage = (CardImageURL, CardImageAlt, CardImageTitle) => {
     popupCaption.textContent = CardImageTitle;
     popupImage.src = CardImageURL;
     popupImage.alt = CardImageAlt;
     openPopup(popupImageElement);
 };
-const likeCard = (evt) => {
-    evt.target.classList.toggle("card__like-button_is-active");
-};
-const deleteCard = (evt) => {
-    evt.target.closest(".card").remove();
-};
 
-const handleFormSubmit = (evt) => {
+const handleProfileFormSubmit = (evt) => {
     evt.preventDefault();
     profileTitle.textContent = popupProfileForm.name.value;
     profileDescription.textContent = popupProfileForm.description.value;
     closePopup(popupProfile);
 };
 
-const profilePopup = (form, name, description) => {
-    form.elements.name.value = name;
-    form.elements.description.value = description;
+const fillProfilePopup = (popupProfileForm, name, description) => {
+    popupProfileForm.elements.name.value = name;
+    popupProfileForm.elements.description.value = description;
 };
 
 initialCards.forEach((card) =>
-    renderCard(card, placesList, likeCard, deleteCard, popupImageOpen),
+    renderCard(card, placesList, likeCard, deleteCard, openPopupImage),
 );
-popupImageElement.addEventListener("click", (evt) => {
-    closeToOverlay(evt);
-});
+
+popupImageElement.addEventListener("click", closeToOverlay);
+
 profileEditButton.addEventListener("click", () => {
-    profilePopup(
+    fillProfilePopup(
         popupProfileForm,
         profileTitle.textContent,
         profileDescription.textContent,
@@ -56,18 +50,15 @@ profileEditButton.addEventListener("click", () => {
     openPopup(popupProfile);
 });
 
-popupProfileForm.addEventListener("submit", handleFormSubmit);
-popupProfile.addEventListener("click", (evt) => {
-    closeToOverlay(evt);
-});
+popupProfileForm.addEventListener("submit", handleProfileFormSubmit);
 
-popupNewCard.addEventListener("click", (evt) => {
-    closeToOverlay(evt);
-});
-document.addEventListener("click", (evt) => {
-    if (evt.target.classList.contains("popup__close")) {
-        closePopup(evt.target.parentNode.parentNode);
-    }
+popupProfile.addEventListener("click", closeToOverlay);
+
+popupNewCard.addEventListener("click", closeToOverlay);
+
+closeButtons.forEach((button) => {
+    const popup = button.closest(".popup");
+    button.addEventListener("click", () => closePopup(popup));
 });
 newCardButton.addEventListener("click", () => {
     openPopup(popupNewCard);
@@ -76,9 +67,8 @@ popupNewCardForm.addEventListener("submit", (evt) => {
     evt.preventDefault();
     const name = popupNewCardForm.elements["place-name"].value;
     const link = popupNewCardForm.elements.link.value;
-    const description = name;
-    const newCard = {name, link, description};
-    renderCard(newCard, placesList, likeCard, deleteCard, popupImageOpen, "start");
+    const newCard = {name, link};
+    renderCard(newCard, placesList, likeCard, deleteCard, openPopupImage, "start");
     closePopup(popupNewCard);
     popupNewCardForm.reset();
 });
