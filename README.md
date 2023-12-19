@@ -1,4 +1,6 @@
-https://github.com/ominyaeva/mesto-project-ff.git
+Репозиторий: https://github.com/ominyaeva/mesto-project-ff.git
+
+Ссылка на сайт: https://ominyaeva.github.io/mesto-project-ff/
 
 # Проект: Место
 

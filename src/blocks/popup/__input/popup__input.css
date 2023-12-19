@@ -10,8 +10,17 @@
   margin-bottom: 10px;
 }
 
+.popup__input:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+
 .popup__input:last-of-type {
   margin-bottom: 0;
+}
+
+.popup__input_type_error {
+  border-bottom: 1px solid #ff0000;
 }
 
 @media screen and (max-width: 568px) {
